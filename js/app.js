@@ -51,7 +51,7 @@ menuLinks.forEach(function(link){
 
  /// part 2
 
- const subMenuEl = document.getElementById('sub-menu')
+ let subMenuEl = document.getElementById('sub-menu')
 //console.log(subMenuEl)
 subMenuEl.style.height = "100%"
 subMenuEl.style.backgroundColor = ('var(--sub-menu-bg)')
@@ -67,22 +67,22 @@ topMenuEl.addEventListener('click', function(event){
     event.preventDefault()
     const link = event.target
   // console.log(link.textContent.toLowerCase())
-     if (link.tagName !== 'a') {
+    if (link.tagName !== 'a') {
     }   
     // 5.4
     topMenuLinks.forEach(function (link) {
         link.classList.remove('active')
     })
     //5.5
-     link.className = 'active'    
+    link.className = 'active'    
     //  if (link.className = 'active') {
     //     showingSubMenu = true
     //  }  
      //5.6
-  const linkData = menuLinks.find(function(linkObj) {
+    const linkData = menuLinks.find(function(linkObj) {
       return linkObj.text === link.textContent.toLowerCase()
 
-  });
+    });
  //     console.log(linkData.subLinks)
 
   showingSubMenu = !!linkData.subLinks;
@@ -100,7 +100,32 @@ topMenuEl.addEventListener('click', function(event){
     mainEl.innerHTML = '<h1>about</h1>'
   }
 })
-function buildSubMenu (subLinks){
-//5.8
-  console.log(subLinks)
+
+//accepts an array of link objects to create new a tags for subMenuEl
+// each time the function runs the existing elements are removed
+function buildSubMenu (subLinks){ 
+  subMenuEl.innerHTML = ''
+  subLinks.forEach(function (link){
+    const linkEl = document.createElement('a')
+    linkEl.textContent = link.text
+    subMenuEl.appendChild(linkEl)
+    linkEl.setAttribute('href' , link.href )
+  })
 }
+//AUGUSTA USE THIS FOR A MENU IN A PORTFOLIO
+//if the target of a click is a valid link, then they are directed to a valid page
+//resetting the styling for nav and the visible h1
+subMenuEl.addEventListener('click', function(event){
+  event.preventDefault()
+  if (!event.target.href) return
+  showingSubMenu = false
+  subMenuEl.style.top = '0'
+  topMenuLinks.forEach(function (link) {
+    link.classList.remove('active')
+  })  
+  const h1 = document.createElement('h1')
+  h1.innerHTML = event.target.textContent
+  mainEl.innerHTML = ''
+  mainEl.appendChild(h1)
+  console.log(h1)
+})
