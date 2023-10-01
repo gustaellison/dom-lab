@@ -66,16 +66,41 @@ let showingSubMenu = false
 topMenuEl.addEventListener('click', function(event){
     event.preventDefault()
     const link = event.target
-   
+  // console.log(link.textContent.toLowerCase())
      if (link.tagName !== 'a') {
     }   
+    // 5.4
     topMenuLinks.forEach(function (link) {
-        link.classList.remove
+        link.classList.remove('active')
     })
+    //5.5
      link.className = 'active'    
-     if (link.className = 'active') {
-        showingSubMenu = true
-     }  
+    //  if (link.className = 'active') {
+    //     showingSubMenu = true
+    //  }  
+     //5.6
+  const linkData = menuLinks.find(function(linkObj) {
+      return linkObj.text === link.textContent.toLowerCase()
 
+  });
+ //     console.log(linkData.subLinks)
+
+  showingSubMenu = !!linkData.subLinks;
+
+ // console.log(showingSubMenu)
+    
+     // return linkObj.text === link.textContent;
+    //});
+  //5.7
+  if (showingSubMenu === true){
+    buildSubMenu(linkData.subLinks)
+    subMenuEl.style.top = '100%'
+  } else {
+    subMenuEl.style.top = '0'
+    mainEl.innerHTML = '<h1>about</h1>'
+  }
 })
+function buildSubMenu (subLinks){
 
+  console.log(subLinks)
+}
